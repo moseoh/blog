@@ -454,6 +454,6 @@ BOOT-INF/lib/processor-0.0.1-SNAPSHOT.jar # <-- procesor 모듈
 
 <!-- annotation-processor github -->
 
-[^1]: https://github.com/azqazq195/blog-code-example/tree/master/spring/annotationprocessor/enumnamepattern
+[^1]: https://github.com/moseoh/blog-code-example/tree/master/spring/annotationprocessor/enumnamepattern
 [^2]: https://github.com/google/auto/tree/main/service
-[^3]: https://github.com/azqazq195/blog-code-example/tree/master/spring/annotationprocessor/enumnamepattern-multi-module
+[^3]: https://github.com/azqamoseohzq195/blog-code-example/tree/master/spring/annotationprocessor/enumnamepattern-multi-module

@@ -32,7 +32,7 @@ menu:
         type: search
     - name: GitHub
       weight: 4
-      url: "https://github.com/azqazq195"
+      url: "https://github.com/moseoh"
       params:
         icon: github
 
@@ -44,7 +44,7 @@ menu:
       weight: 1
     - identifier: github
       name: "Github ↗"
-      url: "https://github.com/azqazq195"
+      url: "https://github.com/moseoh"
       weight: 2
 
 params:
@@ -81,7 +81,7 @@ params:
 
   editURL:
     enable: true
-    base: "https://github.com/azqazq195/blog/edit/main/content"
+    base: "https://github.com/moseoh/blog/edit/main/content"
 
   comments:
     enable: true
