@@ -4,20 +4,20 @@ type: blog
 date: 2025-01-26
 tags:
   - ci/cd
-summary: ""
+summary: "Self-hosted Runner에서 GitHub Actions 빌드 시간을 최적화하는 작업을 진행하였습니다. 각 빌드 단계별로 캐시 가능한 부분을 찾아내고, 로컬 캐싱을 적용해 빌드 시간을 크게 단축하였습니다. 특히 Gradle 빌드와 Docker 빌드에서 발생하는 불필요한 다운로드를 제거하고 캐시를 활용하는 방법에 대해 상세히 정리하였습니다."
 weight: 1
 ---
 
 ## 개요
 
-목표 빌드 순서
+이 포스팅에서는 GitHub Actions의 Self-hosted Runner에서 Spring Boot 애플리케이션을 빌드하고 Docker 이미지를 생성하는 과정을 최적화하는 방법을 알아보았습니다.
 
-1. Gralde Build (Spring Boot)
-2. Docker Build
+주요 빌드 단계는 다음과 같습니다:
 
-## Github Actions Workflows
+1. Gradle을 사용한 Spring Boot 애플리케이션 빌드
+2. Docker 이미지 빌드 및 멀티 아키텍처(amd64/arm64) 지원
 
-Github Actions Runner Workflows 의 순서와 수행시간을 살펴 보겠습니다.
+각 단계별로 현재 빌드 시간을 분석하고, 로컬 캐싱을 활용하여 빌드 시간을 단축하는 방법을 살펴보겠습니다.
 
 ### Clean Build
 
