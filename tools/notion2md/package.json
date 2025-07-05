@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "@notionhq/client": "^2.3.0",
+    "dotenv": "^16.5.0",
+    "install": "^0.13.0",
+    "notion-to-md": "^4.0.0-alpha.5",
+    "npm": "^11.4.2"
+  },
+  "name": "notion2md",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.2"
+  }
+}

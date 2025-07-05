@@ -1,0 +1,98 @@
+---
+export interface Props {
+  currentPage: number;
+  totalPages: number;
+  category: string;
+  tag: string;
+}
+
+const { currentPage, totalPages, category, tag } = Astro.props;
+
+const getPageUrl = (page: number) => {
+  // all인 경우 @으로 변환
+  const categoryParam = category === 'all' ? '@' : category;
+  const tagParam = tag === 'all' ? '@' : tag;
+  
+  // 새로운 명시적 라우팅 구조: /[category]/[tag]/[page]
+  return `/${categoryParam}/${tagParam}/${page}`;
+};
+---
+
+<nav class="mt-12 flex justify-center" aria-label="Pagination">
+  <ul class="flex items-center -space-x-px h-10 text-base">
+    <!-- Previous Button -->
+    <li>
+      <a
+        href={currentPage > 1 ? getPageUrl(currentPage - 1) : '#'}
+        class:list={[
+          'flex items-center justify-center px-4 h-10 ms-0 leading-tight text-foreground-secondary bg-background-primary border border-e-0 border-border-primary rounded-s-lg',
+          currentPage > 1
+            ? 'hover:bg-background-secondary hover:text-foreground-primary'
+            : 'opacity-50 cursor-not-allowed',
+        ]}
+      >
+        <span class="sr-only">Previous</span>
+        <svg
+          class="w-3 h-3"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 6 10"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 1 1 5l4 4"></path>
+        </svg>
+      </a>
+    </li>
+    <!-- Page Numbers -->
+    {
+      Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+        <li>
+          <a
+            href={getPageUrl(page)}
+            class:list={[
+              'flex items-center justify-center px-4 h-10 leading-tight border border-border-primary',
+              page === currentPage
+                ? 'text-accent-primary bg-background-secondary hover:bg-background-tertiary hover:text-accent-primary'
+                : 'text-foreground-secondary bg-background-primary hover:bg-background-secondary hover:text-foreground-primary',
+            ]}
+          >
+            {page}
+          </a>
+        </li>
+      ))
+    }
+    <!-- Next Button -->
+    <li>
+      <a
+        href={currentPage < totalPages ? getPageUrl(currentPage + 1) : '#'}
+        class:list={[
+          'flex items-center justify-center px-4 h-10 leading-tight text-foreground-secondary bg-background-primary border border-border-primary rounded-e-lg',
+          currentPage < totalPages
+            ? 'hover:bg-background-secondary hover:text-foreground-primary'
+            : 'opacity-50 cursor-not-allowed',
+        ]}
+      >
+        <span class="sr-only">Next</span>
+        <svg
+          class="w-3 h-3"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 6 10"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m1 9 4-4-4-4"></path>
+        </svg>
+      </a>
+    </li>
+  </ul>
+</nav> 

@@ -1,0 +1,88 @@
+---
+import { Search } from '@lucide/astro';
+import { SITE, LAYOUT } from '../config';
+import SearchModal from './SearchModal.astro';
+---
+
+<header class="border-b border-border-primary">
+  <div class="mx-auto px-4 sm:px-6 lg:px-8" style={`max-width: ${LAYOUT.siteWidth}`}>
+    <div class="flex justify-between items-center h-16">
+      <div class="flex-shrink-0">
+        <a href="/" class="flex items-center">
+          <span class="text-xl font-bold text-accent-primary" style="font-family: 'Comfortaa', sans-serif;">{SITE.title}</span>
+        </a>
+      </div>
+
+      <button
+        id="search-trigger"
+        class="flex items-center justify-between px-3 py-2 text-sm text-foreground-tertiary bg-background-secondary border border-border-primary rounded-lg hover:bg-background-tertiary transition-colors w-64"
+      >
+        <div class="flex items-center space-x-2">
+          <Search class="h-4 w-4" />
+          <span class="text-foreground-tertiary">검색...</span>
+        </div>
+        <div class="flex items-center space-x-1">
+          <kbd class="px-1.5 py-0.5 text-xs font-medium text-foreground-secondary bg-background-primary border border-border-primary rounded shadow-sm">⌘</kbd>
+          <kbd class="px-1.5 py-0.5 text-xs font-medium text-foreground-secondary bg-background-primary border border-border-primary rounded shadow-sm">K</kbd>
+        </div>
+      </button>
+    </div>
+  </div>
+</header>
+
+<SearchModal />
+
+<script>
+  // OS 감지
+  function detectOS() {
+    const platform = navigator.platform.toLowerCase();
+    const userAgent = navigator.userAgent.toLowerCase();
+
+    if (platform.includes('mac') || userAgent.includes('mac')) {
+      return 'mac';
+    }
+    return 'other';
+  }
+
+  function updateKeyboardHints() {
+    const os = detectOS();
+    const trigger = document.getElementById('search-trigger');
+
+    if (trigger && os !== 'mac') {
+      // Windows/Linux용 단축키 표시
+      const kbds = trigger.querySelectorAll('kbd');
+      kbds[0].textContent = 'Ctrl';
+      kbds[1].textContent = 'K';
+    }
+  }
+
+  // 트리거 버튼 이벤트 설정
+  function setupTriggerButton() {
+    const searchTrigger = document.getElementById('search-trigger');
+
+    if (searchTrigger && !searchTrigger.dataset.listenerAttached) {
+      searchTrigger.addEventListener('click', () => {
+        if (typeof window.openSearchModal === 'function') {
+          window.openSearchModal();
+        }
+      });
+      searchTrigger.dataset.listenerAttached = 'true';
+    }
+  }
+
+  // 헤더 초기화
+  function initializeHeader() {
+    updateKeyboardHints();
+    setupTriggerButton();
+  }
+
+  // 즉시 실행
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeHeader);
+  } else {
+    initializeHeader();
+  }
+
+  // Astro 페이지 전환 시에도 다시 초기화
+  document.addEventListener('astro:page-load', initializeHeader);
+</script> 

@@ -1,0 +1,12 @@
+---
+import { Image } from 'astro:assets';
+import background from '../assets/background.svg';
+import { SITE } from '../config';
+---
+<div class="relative w-full aspect-[21/5] bg-banner-bg rounded-xl overflow-hidden my-8">
+  <Image src={background} alt="Banner background" class="absolute inset-0 w-full h-full object-cover" />
+  <div class="absolute inset-0 bg-overlay-light"></div>
+  <div class="relative h-full flex items-center justify-center">
+    <h1 class="text-background-primary text-5xl font-bold">{SITE.title}</h1>
+  </div>
+</div> 

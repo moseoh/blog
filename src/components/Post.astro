@@ -1,0 +1,72 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import { LAYOUT } from '../config';
+
+export interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+function formatDate(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}년 ${month}월 ${day}일`;
+}
+---
+
+<!-- Hero Image (와이드, 최상단) -->
+{
+  post.data.heroImage && (
+    <div class="w-full mx-auto mt-12" style={`max-width: ${LAYOUT.postWidth}`}>
+      <div class="px-4 sm:px-6 lg:px-8">
+        <Image
+          src={post.data.heroImage}
+          alt={post.data.title}
+          class="w-full aspect-[16/10] object-cover rounded-2xl"
+          width={1200}
+          height={750}
+          loading="eager"
+        />
+      </div>
+    </div>
+  )
+}
+
+<article class="mx-auto px-4 sm:px-6 lg:px-8 py-8 prose prose-base" style={`max-width: ${LAYOUT.postWidth}`}>
+  <!-- 검색 가능하지만 excerpt에는 포함되지 않는 메타데이터 -->
+  <div data-pagefind-meta="title" style="display: none;">{post.data.title}</div>
+  <div data-pagefind-meta="author" style="display: none;">{post.data.author.join(', ')}</div>
+  <div data-pagefind-meta="tags" style="display: none;">{post.data.tags.join(' ')}</div>
+  
+  <!-- 제목, 작성자, 태그들 (왼쪽 정렬, 간격 줄임) -->
+  <div class="mb-12 text-left">
+    <h1 class="text-3xl font-bold tracking-tight mb-3">
+      {post.data.title}
+    </h1>
+    <p class="text-base text-gray-500 mb-3">
+      <span>{post.data.author.join(', ')}</span>
+      <span class="mx-2">·</span>
+      <span>{formatDate(post.data.createdAt)}</span>
+    </p>
+    <!-- 태그들 (Sidebar 스타일과 동일) -->
+    <div class="flex flex-wrap gap-2">
+      {post.data.tags.map((tag) => (
+        <a
+          href={`/@/${tag}/1`}
+          class="bg-background-tertiary text-foreground-primary hover:bg-background-quaternary px-3 py-1 rounded-md text-sm font-medium transition-colors flex items-center gap-1"
+        >
+          <span>{tag}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <!-- excerpt에 포함될 실제 콘텐츠만 -->
+  <div data-pagefind-body>
+    <Content />
+  </div>
+</article>

@@ -1,0 +1,138 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../../layouts/MainLayout.astro';
+import Header from '../../../components/Header.astro';
+import Banner from '../../../components/Banner.astro';
+import PostList from '../../../components/PostList.astro';
+import Sidebar from '../../../components/Sidebar.astro';
+import Pagination from '../../../components/Pagination.astro';
+import type { CollectionEntry } from 'astro:content';
+import { POSTS_PER_PAGE, SITE, LAYOUT } from '../../../config';
+
+// 1. 빌드 시 가능한 모든 URL 경로 생성
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => {
+    return data.draft !== true;
+  });
+
+  const allCategories = [
+    '@', // 'all' 대신 '@' 사용
+    ...new Set(
+      posts.map((post) => post.data.category?.toLowerCase()).filter(Boolean) as string[]
+    ),
+  ];
+  const paths: any[] = [];
+
+  for (const categoryParam of allCategories) {
+    const actualCategory = categoryParam === '@' ? 'all' : categoryParam;
+    const postsForCat =
+      actualCategory === 'all'
+        ? posts
+        : posts.filter((post) => post.data.category?.toLowerCase() === actualCategory);
+
+    const allTags = [
+      '@', // 'all' 대신 '@' 사용
+      ...new Set(postsForCat.flatMap((post) => post.data.tags || [])),
+    ];
+
+    for (const tagParam of allTags) {
+      const actualTag = tagParam === '@' ? 'all' : tagParam;
+      const postsForTag =
+        actualTag === 'all'
+          ? postsForCat
+          : postsForCat.filter((post) => (post.data.tags || []).includes(actualTag));
+
+      const totalPages = Math.max(1, Math.ceil(postsForTag.length / POSTS_PER_PAGE));
+
+      for (let page = 1; page <= totalPages; page++) {
+        paths.push({ 
+          params: { 
+            category: categoryParam,
+            tag: tagParam,
+            page: page.toString()
+          } 
+        });
+      }
+    }
+  }
+
+  return paths;
+}
+
+// 2. 현재 URL 파라미터 파싱
+const { category: categoryParam, tag: tagParam, page: pageParam } = Astro.params;
+
+
+// @ 기호를 'all'로 변환
+const category = categoryParam === '@' ? 'all' : categoryParam!;
+const tag = tagParam === '@' ? 'all' : tagParam!;
+const page = parseInt(pageParam!);
+
+// 3. 유효성 검사 후 데이터 필터링
+const postsUnfiltered = await getCollection('posts', ({ data }) => {
+  return data.draft !== true;
+});
+
+const sortedPosts = postsUnfiltered.sort(
+  (a, b) => b.data.createdAt.valueOf() - a.data.createdAt.valueOf()
+);
+
+const postsForCategory =
+  category === 'all'
+    ? sortedPosts
+    : sortedPosts.filter((p) => p.data.category?.toLowerCase() === category.toLowerCase());
+
+const postsForTag =
+  tag === 'all'
+    ? postsForCategory
+    : postsForCategory.filter((p) => (p.data.tags || []).includes(tag));
+
+const totalPages = Math.max(1, Math.ceil(postsForTag.length / POSTS_PER_PAGE));
+const paginatedPosts = postsForTag.slice(
+  (page - 1) * POSTS_PER_PAGE,
+  page * POSTS_PER_PAGE
+);
+
+// 원본 카테고리명을 매핑하기 위한 객체 생성
+const categoryMap = new Map<string, string>();
+postsUnfiltered.forEach((post) => {
+  if (post.data.category) {
+    categoryMap.set(post.data.category.toLowerCase(), post.data.category);
+  }
+});
+
+const allCategoriesForTabs = [
+  '전체',
+  ...new Set(
+    postsUnfiltered.map((post) => post.data.category).filter(Boolean) as string[]
+  ),
+];
+
+// 표시용 카테고리명 - 원본 카테고리명 사용
+const displayCategory = category === 'all' ? '전체' : (categoryMap.get(category) || category);
+---
+
+<MainLayout title={SITE.title}>
+  <Header />
+  <main class="mx-auto px-4 sm:px-6 lg:px-8" style={`max-width: ${LAYOUT.siteWidth}`}>
+    <Banner />
+    <div
+      class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 items-start"
+    >
+      <div class="pb-12">
+        <PostList
+          posts={paginatedPosts}
+          categories={allCategoriesForTabs}
+          currentCategory={displayCategory}
+        />
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          category={category}
+          tag={tag}
+        />
+      </div>
+      <Sidebar posts={sortedPosts} currentCategory={displayCategory} currentTag={tag} />
+    </div>
+  </main>
+</MainLayout> 

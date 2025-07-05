@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+
+function formatDate(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}년 ${month}월 ${day}일`;
+}
+---
+
+<a
+  href={`/posts/${post.slug}`}
+  class="group grid md:grid-cols-[1fr_200px] gap-8 items-start"
+>
+  <div class="flex flex-col justify-start">
+    <h2 class="text-xl font-bold group-hover:text-accent-primary transition-colors">
+      {post.data.title}
+    </h2>
+    <p class="text-foreground-secondary mt-2">{post.data.summary}</p>
+    <div class="text-sm mt-6">
+      {post.data.tags.map((tag) => <span class="text-accent-primary">#{tag} </span>)}
+    </div>
+    <div class="text-sm text-foreground-tertiary mt-1">
+      <span>{formatDate(post.data.createdAt)}</span>
+      <span class="mx-1">·</span>
+      <span>{post.data.author.join(', ')}</span>
+    </div>
+  </div>
+  <div class="w-full aspect-[16/10] rounded-2xl overflow-hidden">
+    {post.data.heroImage && (
+      <Image
+        src={post.data.heroImage}
+        alt={post.data.title}
+        class="w-full h-full object-cover"
+        width={240}
+        height={150}
+        loading="eager"
+      />
+    )}
+  </div>
+</a> 

@@ -1,0 +1,33 @@
+:root {
+    /* 배경색 */
+    --theme-bg-primary: oklch(1 0 0);                    /* 순백색 */
+    --theme-bg-secondary: oklch(0.985 0.002 247.839);    /* 매우 밝은 회색 */
+    --theme-bg-tertiary: oklch(0.967 0.003 264.542);     /* 밝은 회색 */
+    --theme-bg-quaternary: oklch(0.928 0.006 264.531);   /* 중간 밝은 회색 */
+    
+    /* 텍스트색 */
+    /*--theme-text-primary: oklch(0.208 0.042 265.755);    !* 진한 검정 *!*/
+    --theme-text-primary: oklch(0.3568 0.0278 256.82);
+    --theme-text-secondary: oklch(0.4602 0.0281 256.19);
+    --theme-text-tertiary: oklch(0.6664 0.0206 255.58);
+    --theme-text-quaternary: oklch(0.872 0.01 258.338);  /* 매우 연한 회색 */
+
+    /* 액센트 색상 */
+    --theme-accent-primary: oklch(0.5944 0.0772 254.03);  /* 파란색 */
+    --theme-accent-secondary: oklch(0.627 0.265 303.9);  /* 보라색 */
+    
+    /* 테두리색 */
+    --theme-border-primary: oklch(0.928 0.006 264.531);  /* 연한 테두리 */
+    --theme-border-secondary: oklch(0.872 0.01 258.338); /* 진한 테두리 */
+    
+    /* 서피스색 */
+    --theme-surface-primary: oklch(1 0 0);               /* 카드/모달 배경 */
+    --theme-surface-secondary: oklch(0.985 0.002 247.839); /* 호버 상태 */
+    
+    /* 특수 색상 */
+    --theme-overlay-dark: oklch(0 0 0 / 0.8);            /* 모달 오버레이 */
+    --theme-overlay-light: oklch(0 0 0 / 0.3);           /* 배너 오버레이 */
+    --theme-highlight: oklch(0.95 0.05 85);              /* 하이라이트 (연한 노랑) */
+    --theme-banner-bg: oklch(0.279 0.041 260.031);       /* 배너 배경 (진한 회색) */
+    --theme-modal-backdrop: oklch(0 0 0 / 0.8);          /* 모달 백드롭 */
+}

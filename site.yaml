@@ -1,0 +1,15 @@
+# Site Configuration
+site:
+  title: "polarnote"
+  description: "A personal blog theme for Astro."
+
+# Layout Configuration
+layout:
+  # site_width: "1280px" # max-w-7xl
+  # post_width: "768px" # max-w-3xl
+  site_width: "1100px" # max-w-7xl
+  post_width: "860px" # max-w-3xl
+
+# Content Configuration
+content:
+  posts_per_page: 8

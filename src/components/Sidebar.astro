@@ -1,0 +1,207 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  posts: CollectionEntry<'posts'>[];
+  currentCategory?: string;
+  currentTag?: string;
+}
+
+const { posts, currentCategory = '전체', currentTag } = Astro.props;
+
+// Filter posts by the current category if it's not '전체'
+const filteredPosts =
+  currentCategory === '전체'
+    ? posts
+    : posts.filter(
+        (post) => post.data.category?.toLowerCase() === currentCategory.toLowerCase()
+      );
+
+const tags = filteredPosts.reduce((acc: Record<string, number>, post) => {
+  if (post.data.tags) {
+    post.data.tags.forEach((tag) => {
+      acc[tag] = (acc[tag] || 0) + 1;
+    });
+  }
+  return acc;
+}, {});
+
+const sortedTags = Object.entries(tags)
+  .map(([tag, count]) => ({ tag, count }))
+  .sort((a, b) => b.count - a.count);
+
+// 기존 데이터들 (주석처리)
+/*
+const popularPosts = [
+  {
+    title: '신용대출 찾기 서비스 제휴사 mock 서버 개발기',
+    author: '류경린',
+    url: '#',
+  },
+  {
+    title: '아름답고 이해하기 쉬운 세션 자료 만들기 | Simplicity 4 제작기 #5',
+    author: '유가빈',
+    url: '#',
+  },
+  {
+    title: '인터랙션으로 만드는 몰입 경험 | Simplicity 4 제작기 #3',
+    author: '백승은',
+    url: '#',
+  },
+];
+
+const articleSeries = [
+  {
+    title: '토스 피플',
+    description: '토스 팀원들의 커리어 스토리',
+    articleCount: 7,
+    imageUrl:
+      'https://wp.toss.tech/wp-content/uploads/2023/03/Frame-1000005231.png',
+    url: '#',
+  },
+  {
+    title: 'Simplicity 4',
+    description: '토스 디자인 컨퍼런스 Simplicity 4의 비하인드 스토리',
+    articleCount: 6,
+    imageUrl:
+      'https://wp.toss.tech/wp-content/uploads/2024/06/simplicity-4-cover.png',
+    url: '#',
+  },
+];
+
+const recentComments = [
+  {
+    author: '신나는앵무새',
+    postTitle: '신용대출 찾기 서비스 제휴사 mock 서버 개발기',
+    content:
+      'mock 서버 구축 시 어떤 라이브러리를 사용하셨는지 궁금합니다! msw 로 편하게 개발해왔는데, 실제 서비스 환경과 유사하게 구성하면서...',
+    url: '#',
+  },
+];
+*/
+---
+
+<aside class="w-full lg:w-80 flex-shrink-0">
+  <div class="space-y-12">
+    <!-- 태그 -->
+    <section>
+      <h2 class="text-lg font-bold mb-4 text-foreground-primary">태그</h2>
+      <div class="flex flex-wrap gap-2">
+        {
+          sortedTags.map(({ tag, count }) => {
+            const categorySlug =
+              !currentCategory || currentCategory === '전체'
+                ? 'all'
+                : currentCategory.toLowerCase();
+
+            // 새로운 명시적 라우팅 구조에 맞춰 링크 생성
+            const categoryParam = categorySlug === 'all' ? '@' : categorySlug;
+            const href = `/${categoryParam}/${tag}/1`;
+            
+            const isActive = currentTag === tag;
+            
+            if (isActive) {
+              // 활성화된 태그는 클릭 비활성화
+              return (
+                <span
+                  class="bg-accent-primary text-background-primary px-3 py-1 rounded-md text-sm font-medium flex items-center gap-1"
+                >
+                  <span>{tag}</span>
+                  <span class="bg-background-primary text-accent-primary text-xs px-1.5 py-0.5 rounded-full">{count}</span>
+                </span>
+              );
+            }
+            
+            return (
+              <a
+                href={href}
+                class="bg-background-tertiary text-foreground-primary hover:bg-background-quaternary px-3 py-1 rounded-md text-sm font-medium transition-colors flex items-center gap-1"
+              >
+                <span>{tag}</span>
+                <span class="text-foreground-tertiary bg-background-quaternary text-xs px-1.5 py-0.5 rounded-full">{count}</span>
+              </a>
+            );
+          })
+        }
+      </div>
+    </section>
+
+    <!-- 기존 섹션들 (주석처리) -->
+    {/*
+    <!-- 인기있는 글 -->
+    <section>
+      <h2 class="text-lg font-bold mb-4">인기있는 글</h2>
+      <ul class="space-y-4">
+        {
+          popularPosts.map((post) => (
+            <li>
+              <a href={post.url} class="group">
+                <p class="font-semibold group-hover:text-blue-600 transition-colors">
+                  {post.title}
+                </p>
+                <p class="text-sm text-gray-500">{post.author}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- 아티클 시리즈 -->
+    <section>
+      <h2 class="text-lg font-bold mb-4">아티클 시리즈</h2>
+      <div class="space-y-4">
+        {
+          articleSeries.map((series) => (
+            <a href={series.url} class="flex items-center space-x-4 group">
+              <div class="w-24 h-24 rounded-lg overflow-hidden bg-gray-100">
+                <img
+                  src={series.imageUrl}
+                  alt={series.title}
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="flex-1">
+                <p class="font-semibold group-hover:text-blue-600 transition-colors">
+                  {series.title}
+                </p>
+                <p class="text-sm text-gray-500 mt-1">
+                  {series.description}
+                </p>
+                <p class="text-xs text-gray-400 mt-2">
+                  아티클 {series.articleCount}
+                </p>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- 최근 댓글 -->
+    <section>
+      <h2 class="text-lg font-bold mb-4">최근 댓글</h2>
+      <div class="space-y-4">
+        {
+          recentComments.map((comment) => (
+            <a
+              href={comment.url}
+              class="block p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              <div class="flex items-center mb-2">
+                <div class="w-6 h-6 rounded-full bg-purple-200 flex items-center justify-center text-sm font-bold text-purple-600">
+                  신
+                </div>
+                <p class="ml-2 font-semibold text-sm">{comment.author}</p>
+              </div>
+              <p class="text-sm text-gray-600 leading-snug">
+                {comment.content}
+              </p>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+    */}
+  </div>
+</aside> 
