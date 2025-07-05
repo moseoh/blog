@@ -3,7 +3,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 
-const sourceDir = 'node_modules/.astro/notion2md/content/posts';
+const sourceDir = 'node_modules/.astro/.notion-to-md/content/posts';
 const targetDir = 'src/content/posts';
 
 async function copyPosts() {
@@ -41,8 +41,8 @@ async function copyPosts() {
         console.log(`✅ Copied: ${item}`);
       }
     }
-    
-    console.log('🎉 Posts copied successfully!');
+
+    console.log('🎉 Posts copied successfully!\n');
   } catch (error) {
     console.error('❌ Error copying posts:', error);
     process.exit(1);
