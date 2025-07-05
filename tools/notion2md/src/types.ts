@@ -7,7 +7,21 @@ export type PageObject = Extract<
     { url: string }
 >;
 
-export { PostProps } from "../../../types/content.js";
+// PostProps 인터페이스를 직접 정의 (Astro 의존성 없이)
+export interface PostProps {
+  id: string;
+  draft: boolean;
+  title: string;
+  slug: string;
+  category: string | null;
+  tags: string[];
+  summary: string;
+  author: string[];
+  heroImage: string | null;
+  publishedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
 
 /**
  * Type for individual entries to be stored in the cache file
