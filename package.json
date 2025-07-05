@@ -4,10 +4,11 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "pnpm sync && astro build",
+    "build": "pnpm sync && pnpm copy-posts && astro build",
     "preview": "pnpm build && astro preview",
     "astro": "astro",
-    "sync": "cd tools/notion2md && npm run start"
+    "sync": "cd tools/notion2md && npm run start",
+    "copy-posts": "node tools/copy-posts.js"
   },
   "dependencies": {
     "@lucide/astro": "^0.515.0",

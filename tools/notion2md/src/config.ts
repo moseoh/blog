@@ -18,9 +18,8 @@ export const config = {
     databaseId: getEnv("DATABASE_ID"),
   },
   fs: {
-    contentDir: path.join("../../src/content/posts"),
-    mediaDir: path.join("../../src/content/posts"), // Media will be in individual post folders
-    cacheDir: path.join("./", ".cache"),
-    cachePath: path.join("./", ".cache", "cache.json"),
+    contentDir: path.join(".notion-to-md/content/posts"), // 이미 node_modules/.astro에서 실행
+    cacheDir: path.join(".notion-to-md", ".cache"),
+    cachePath: path.join(".notion-to-md", ".cache", "cache.json"),
   },
 };

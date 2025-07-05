@@ -110,6 +110,12 @@ function createNewCache(validPosts: PostProps[]): CacheData {
 async function main() {
   try {
     logger.log("🚀 Starting Notion to Markdown sync...");
+    
+    // Change the working directory to cache location so .notion-to-md cache is created there
+    const workingDir = path.resolve("../../node_modules/.astro");
+    await fs.mkdir(workingDir, { recursive: true });
+    process.chdir(workingDir);
+    
     await fs.mkdir(config.fs.contentDir, { recursive: true });
 
     const allPosts = await getPosts(config.notion.databaseId);
