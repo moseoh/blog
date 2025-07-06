@@ -16,10 +16,14 @@ const postsCollection = defineCollection({
       summary: z.string(),
       author: z.array(z.string()),
       heroImage: image().nullable(),
-      publishedAt: z.string().nullable(),
+      publishedAt: z.coerce.date().nullable(),
       createdAt: z.coerce.date(),
       updatedAt: z.coerce.date().nullable(),
-    }),
+    }).transform((data) => ({
+      ...data,
+      // publishedAt이 null이면 createdAt을 사용
+      publishedAt: data.publishedAt || data.createdAt,
+    })),
 });
 
 export const collections = {

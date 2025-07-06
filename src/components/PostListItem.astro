@@ -43,7 +43,7 @@ function formatDate(date: Date) {
       {post.data.tags.map((tag) => <span class="text-accent-primary">#{tag} </span>)}
     </div>
     <div class="text-sm text-foreground-tertiary mt-1">
-      <span>{formatDate(post.data.createdAt)}</span>
+      <span>{formatDate(post.data.publishedAt)}</span>
       <span class="mx-1">·</span>
       <span>{post.data.author.join(', ')}</span>
     </div>

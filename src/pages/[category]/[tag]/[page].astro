@@ -74,7 +74,7 @@ const postsUnfiltered = await getCollection('posts', ({ data }) => {
 });
 
 const sortedPosts = postsUnfiltered.sort(
-  (a, b) => b.data.createdAt.valueOf() - a.data.createdAt.valueOf()
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
 );
 
 const postsForCategory =
