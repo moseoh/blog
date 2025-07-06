@@ -17,6 +17,13 @@ export const SITE = {
   description: config.site.description,
 };
 
+export const SOCIAL = {
+  github: config.social.github,
+  twitter: config.social.twitter,
+  linkedin: config.social.linkedin,
+  email: config.social.email,
+};
+
 export const LAYOUT = {
   siteWidth: config.layout.site_width,
   postWidth: config.layout.post_width,

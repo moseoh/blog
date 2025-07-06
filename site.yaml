@@ -3,10 +3,15 @@ site:
   title: "moseoh"
   description: "A personal blog theme for Astro."
 
+# Social Links
+social:
+  github: "none"
+  linkedin: "none"
+  twitter: "none"
+  email: "none"
+
 # Layout Configuration
 layout:
-  # site_width: "1280px" # max-w-7xl
-  # post_width: "768px" # max-w-3xl
   site_width: "1100px" # max-w-7xl
   post_width: "860px" # max-w-3xl
 

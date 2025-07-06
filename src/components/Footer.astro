@@ -1,0 +1,57 @@
+---
+import { Mail } from '@lucide/astro';
+import { LAYOUT, SOCIAL } from '../config';
+import githubIcon from '../assets/icons/github.svg';
+import linkedinIcon from '../assets/icons/linkedin.svg';
+import xIcon from '../assets/icons/x.svg';
+
+const currentYear = new Date().getFullYear();
+
+// 소셜 링크 필터링 (빈 문자열이 아닌 것만)
+const socialLinks = [
+  { name: 'GitHub', icon: githubIcon, url: SOCIAL.github, label: 'GitHub' },
+  { name: 'Twitter', icon: xIcon, url: SOCIAL.twitter, label: 'Twitter' },
+  { name: 'LinkedIn', icon: linkedinIcon, url: SOCIAL.linkedin, label: 'LinkedIn' },
+  { name: 'Email', lucideIcon: Mail, url: SOCIAL.email ? `mailto:${SOCIAL.email}` : '', label: 'Email' },
+].filter(link => link.url && link.url.trim() !== '');
+---
+
+<footer class="mt-16 border-t border-border-primary bg-background-secondary">
+  <div class="mx-auto px-4 sm:px-6 lg:px-8 py-12" style={`max-width: ${LAYOUT.siteWidth}`}>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <!-- 사이트 정보 -->
+      <div>
+        <h3>
+          <a href="https://github.com/moseoh/polarnote" target="_blank" rel="noopener noreferrer" class="text-lg mb-2 text-accent-primary font-medium">polarnote</a>
+        </h3>
+        <p class="text-foreground-tertiary text-sm">
+          Copyright © {currentYear} <a href="https://github.com/moseoh" target="_blank" rel="noopener noreferrer" class="text-accent-primary font-medium">moseoh</a>
+        </p>
+        <p class="text-foreground-tertiary text-sm">
+          All rights reserved.
+        </p>
+      </div>
+
+      <!-- 소셜 링크 -->
+      <div class="flex justify-start md:justify-end">
+        <div class="flex space-x-4">
+          {socialLinks.map((link) => (
+            <a
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={link.label}
+              class="text-foreground-tertiary hover:text-accent-primary transition-colors p-2 hover:bg-background-tertiary rounded-lg"
+            >
+              {link.lucideIcon ? (
+                <link.lucideIcon class="h-5 w-5" />
+              ) : (
+                <img src={link.icon.src} alt={link.label} class="h-5 w-5" />
+              )}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
