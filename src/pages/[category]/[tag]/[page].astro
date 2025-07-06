@@ -3,10 +3,10 @@ import { getCollection } from 'astro:content';
 import MainLayout from '../../../layouts/MainLayout.astro';
 import Header from '../../../components/Header.astro';
 import Banner from '../../../components/Banner.astro';
+import CategoryTabs from '../../../components/CategoryTabs.astro';
 import PostList from '../../../components/PostList.astro';
 import Sidebar from '../../../components/Sidebar.astro';
 import Pagination from '../../../components/Pagination.astro';
-import type { CollectionEntry } from 'astro:content';
 import { POSTS_PER_PAGE, SITE, LAYOUT } from '../../../config';
 
 // 1. 빌드 시 가능한 모든 URL 경로 생성
@@ -114,16 +114,22 @@ const displayCategory = category === 'all' ? '전체' : (categoryMap.get(categor
 
 <MainLayout title={SITE.title}>
   <Header />
-  <main class="mx-auto px-4 sm:px-6 lg:px-8" style={`max-width: ${LAYOUT.siteWidth}`}>
+  <div class="md:mx-auto md:px-4 sm:md:px-6 lg:md:px-8" style={`max-width: ${LAYOUT.siteWidth}`}>
     <Banner />
+  </div>
+  <div class="md:mx-auto md:px-4 sm:md:px-6 lg:md:px-8" style={`max-width: ${LAYOUT.siteWidth}`}>
+    <CategoryTabs
+      categories={allCategoriesForTabs}
+      currentCategory={displayCategory}
+    />
+  </div>
+  <main class="mx-auto px-4 sm:px-6 lg:px-8" style={`max-width: ${LAYOUT.siteWidth}`}>
     <div
       class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 items-start"
     >
       <div class="pb-12">
         <PostList
           posts={paginatedPosts}
-          categories={allCategoriesForTabs}
-          currentCategory={displayCategory}
         />
         <Pagination
           currentPage={page}

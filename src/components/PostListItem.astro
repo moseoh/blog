@@ -18,9 +18,23 @@ function formatDate(date: Date) {
 
 <a
   href={`/posts/${post.slug}`}
-  class="group grid md:grid-cols-[1fr_200px] gap-8 items-start"
+  class="group block md:grid md:grid-cols-[1fr_200px] gap-8 items-start border-b border-border-primary pb-6 md:border-none md:pb-0"
 >
-  <div class="flex flex-col justify-start">
+  <!-- 모바일에서 이미지가 위에 표시 -->
+  <div class="w-full aspect-[16/10] rounded-2xl overflow-hidden mb-4 md:mb-0 md:order-2">
+    {post.data.heroImage && (
+      <Image
+        src={post.data.heroImage}
+        alt={post.data.title}
+        class="w-full h-full object-cover"
+        widths={[1200, 400]}
+        sizes="(max-width: 768px) 1200px, 400px"
+        loading="eager"
+      />
+    )}
+  </div>
+  
+  <div class="flex flex-col justify-start md:order-1">
     <h2 class="text-xl font-bold group-hover:text-accent-primary transition-colors">
       {post.data.title}
     </h2>
@@ -33,17 +47,5 @@ function formatDate(date: Date) {
       <span class="mx-1">·</span>
       <span>{post.data.author.join(', ')}</span>
     </div>
-  </div>
-  <div class="w-full aspect-[16/10] rounded-2xl overflow-hidden">
-    {post.data.heroImage && (
-      <Image
-        src={post.data.heroImage}
-        alt={post.data.title}
-        class="w-full h-full object-cover"
-        width={240}
-        height={150}
-        loading="eager"
-      />
-    )}
   </div>
 </a> 

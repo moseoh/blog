@@ -4,48 +4,14 @@ import type { CollectionEntry } from 'astro:content';
 
 export interface Props {
   posts: CollectionEntry<'posts'>[];
-  categories: string[];
-  currentCategory: string;
 }
 
-const { posts, categories, currentCategory } = Astro.props;
+const { posts } = Astro.props;
 ---
 
 <div class="w-full">
-  <!-- Category Tabs -->
-  <div class="mb-8 border-b border-border-primary">
-    <nav class="-mb-px flex" aria-label="Tabs">
-      {
-        categories.map((category) => {
-          const isActive = category.toLowerCase() === currentCategory.toLowerCase();
-          // 새로운 명시적 라우팅 구조에 맞춰 링크 생성
-          const categoryParam = category === '전체' ? '@' : category.toLowerCase();
-          const href = `/${categoryParam}/@/1`;
-          return (
-            <a
-              href={href}
-              class:list={[
-                'relative whitespace-nowrap py-4 px-4 font-medium text-md transition-colors',
-                isActive
-                  ? 'text-foreground-primary'
-                  : 'text-foreground-secondary hover:text-foreground-primary',
-              ]}
-            >
-              {category}
-              {isActive && (
-                <span
-                  class="absolute -bottom-px left-0 w-full h-[3px] bg-accent-primary rounded-full"
-                />
-              )}
-            </a>
-          );
-        })
-      }
-    </nav>
-  </div>
-
   <!-- Posts List -->
-  <div class="space-y-12">
+  <div class="space-y-12 md:space-y-12">
     {posts.map((post) => <PostListItem post={post} />)}
   </div>
 </div> 

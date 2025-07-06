@@ -1,12 +1,31 @@
 ---
 import { Image } from 'astro:assets';
-import background from '../assets/background.svg';
 import { SITE } from '../config';
+
+let banner;
+let bannerMobile;
+
+try {
+  banner = await import('../assets/banner.png');
+  banner = banner.default;
+} catch {
+  banner = null;
+}
+
+try {
+  bannerMobile = await import('../assets/banner_mobile.png');
+  bannerMobile = bannerMobile.default;
+} catch {
+  bannerMobile = null;
+}
+
+const showBanner = banner || bannerMobile;
+const mobileImage = bannerMobile || banner;
 ---
-<div class="relative w-full aspect-[21/5] bg-banner-bg rounded-xl overflow-hidden my-8">
-  <Image src={background} alt="Banner background" class="absolute inset-0 w-full h-full object-cover" />
-  <div class="absolute inset-0 bg-overlay-light"></div>
-  <div class="relative h-full flex items-center justify-center">
-    <h1 class="text-background-primary text-5xl font-bold">{SITE.title}</h1>
+{showBanner && (
+  <div class="relative w-full aspect-[16/10] md:aspect-[21/5] rounded-none md:rounded-xl overflow-hidden my-0 md:my-8">
+    {mobileImage && <Image src={mobileImage} alt="Banner background" class="absolute inset-0 w-full h-full object-cover md:hidden" />}
+    {banner && <Image src={banner} alt="Banner background" class="absolute inset-0 w-full h-full object-cover hidden md:block" />}
+    <div class="absolute inset-0"></div>
   </div>
-</div> 
+)}
