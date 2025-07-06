@@ -7,7 +7,7 @@ import type { PostProps } from "./types";
 import { config } from "./config";
 
 /**
- * Creates and returns NotionConverter instance for a specific post.
+ * Creates and returns a NotionConverter instance for a specific post.
  */
 const getN2mInstance = (postSlug: string): NotionConverter => {
   // Create a new instance for each post to handle media in post-specific folders
@@ -26,12 +26,12 @@ const getN2mInstance = (postSlug: string): NotionConverter => {
 };
 
 /**
- * Converts object to YAML Frontmatter format string.
- * @param data - Object to convert
+ * Converts an object to YAML Frontmatter format string.
+ * @param props - Object to convert
  * @returns YAML string
  */
 function createFrontmatter(props: PostProps): string {
-  // id is used as filename, so exclude it from frontmatter.
+  // id is used as a filename, so exclude it from frontmatter.
   const { id, ...rest } = props;
 
   const lines = Object.entries(rest).map(([key, value]) => {
@@ -61,14 +61,27 @@ export async function savePostAsMarkdown(post: PostProps, contentDir: string) {
       (console as any)[key] = () => {};
     });
 
-    // Create post-specific folder
+    // Create a post-specific folder
     const postDir = path.join(contentDir, post.slug);
     await fs.mkdir(postDir, { recursive: true });
 
     const converter = getN2mInstance(post.slug); // Get instance with post-specific media dir
-    const { content: markdownBody } = await converter.convert(post.id);
+    const { content: markdownBody, blockTree } = await converter.convert(post.id);
 
-    const frontmatter = createFrontmatter(post);
+    // Find heroImage in blockTree properties
+    let localHeroImage = post.heroImage;
+    const heroImageProperty = (blockTree as any).properties?.heroImage;
+    
+    if (heroImageProperty && heroImageProperty.files && heroImageProperty.files.length > 0) {
+      const heroImageFile = heroImageProperty.files[0];
+      if (heroImageFile.file && heroImageFile.file.url) {
+        localHeroImage = heroImageFile.file.url;
+      }
+    }
+
+    // Update the post with a local heroImage path
+    const updatedPost = { ...post, heroImage: localHeroImage };
+    const frontmatter = createFrontmatter(updatedPost);
     const fullContent = `${frontmatter}\n\n${markdownBody}`;
     const filePath = path.join(postDir, 'index.md');
     await fs.writeFile(filePath, fullContent);
