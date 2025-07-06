@@ -1,6 +1,6 @@
 # Site Configuration
 site:
-  title: "polarnote"
+  title: "moseoh"
   description: "A personal blog theme for Astro."
 
 # Layout Configuration
