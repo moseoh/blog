@@ -1,17 +1,14 @@
 name: Deploy to Cloudflare
 
 on:
-# Manual trigger option (uncomment to enable)
   workflow_dispatch:
-#  Run daily at midnight KST (15:00 UTC = 00:00 KST+9)
-#  schedule:
-#    - cron: '0 15 * * *'
-
+  schedule:
+    - cron: "0 15 * * *"
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Check if deploy URL is configured
         run: |
@@ -20,11 +17,11 @@ jobs:
             exit 1
           fi
           echo "✅ Deploy URL is configured"
-        
+
       - name: Trigger Cloudflare Deploy
         run: |
           curl -d "" "${{ secrets.CLOUDFLARE_DEPLOY_HOOKS_URL }}"
-        
+
       - name: Check deployment status
         run: |
           echo "✅ Cloudflare deploy hook has been triggered"
