@@ -110,9 +110,17 @@ const allCategoriesForTabs = [
 
 // 표시용 카테고리명 - 원본 카테고리명 사용
 const displayCategory = category === 'all' ? '전체' : (categoryMap.get(category) || category);
+
+// OG 메타데이터 준비
+const ogTitle = `${displayCategory} ${tag !== 'all' ? `- ${tag}` : ''}`;
+const ogDescription = `${displayCategory} 카테고리의 블로그 포스트${tag !== 'all' ? ` (태그: ${tag})` : ''} - ${SITE.title}`;
 ---
 
-<MainLayout title={SITE.title}>
+<MainLayout 
+  title={ogTitle}
+  description={ogDescription}
+  ogType="website"
+>
   <Header />
   <div class="md:mx-auto md:px-4 sm:md:px-6 lg:md:px-8" style={`max-width: ${LAYOUT.siteWidth}`}>
     <Banner />
