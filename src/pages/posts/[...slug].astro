@@ -22,7 +22,7 @@ const { post } = Astro.props as { post: CollectionEntry<'posts'> };
 // OG 메타데이터 준비
 const ogTitle = `${post.data.title}`;
 const ogDescription = post.data.summary || SITE.description;
-const ogImage = post.data.heroImage?.src || undefined; // 포스트 히어로 이미지가 있으면 사용
+const ogImage = post.data.heroImage || undefined; // 포스트 히어로 이미지 객체 전달
 ---
 <MainLayout
   title={ogTitle}
