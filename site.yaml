@@ -2,7 +2,7 @@
 site:
   title: "moseoh"
   description: "A personal blog theme for Astro."
-  url: "https://polarnote.pages.dev"
+  url: "https://blog.moseoh.com"
 
 # Social Links
 social:
