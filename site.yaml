@@ -1,7 +1,7 @@
 # Site Configuration
 site:
   title: "moseoh"
-  description: "A personal blog theme for Astro."
+  description: "moseoh 개발 블로그"
   url: "https://blog.moseoh.com"
 
 # Social Links
