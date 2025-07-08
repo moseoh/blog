@@ -5,10 +5,10 @@ export interface SiteConfig {
     url: string;
   };
   social: {
-    github: string;
-    linkedin: string;
-    twitter: string;
-    email: string;
+    github?: string | undefined | null;
+    linkedin?: string | undefined | null;
+    twitter?: string | undefined | null;
+    email?: string | undefined | null;
   };
   layout: {
     site_width: string;

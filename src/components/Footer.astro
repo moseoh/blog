@@ -7,13 +7,13 @@ import xIcon from '../assets/icons/x.svg';
 
 const currentYear = new Date().getFullYear();
 
-// 소셜 링크 필터링 (빈 문자열이 아닌 것만)
+// 소셜 링크 필터링 (필드가 없거나 'none'이면 제외, 공백은 유효한 값으로 취급)
 const socialLinks = [
   { name: 'GitHub', icon: githubIcon, url: SOCIAL.github, label: 'GitHub' },
   { name: 'Twitter', icon: xIcon, url: SOCIAL.twitter, label: 'Twitter' },
   { name: 'LinkedIn', icon: linkedinIcon, url: SOCIAL.linkedin, label: 'LinkedIn' },
-  { name: 'Email', lucideIcon: Mail, url: SOCIAL.email ? `mailto:${SOCIAL.email}` : '', label: 'Email' },
-].filter(link => link.url && link.url.trim() !== '');
+  { name: 'Email', lucideIcon: Mail, url: SOCIAL.email ? `mailto:${SOCIAL.email}` : null, label: 'Email' },
+].filter(link => link.url);
 ---
 
 <footer class="mt-16 border-t border-border-primary bg-background-secondary">
