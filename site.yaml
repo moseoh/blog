@@ -26,7 +26,7 @@ content:
 # Comments Configuration
 comments:
   giscus:
-    enabled: false
+    enabled: true
     script: |
       <script src="https://giscus.app/client.js"
         data-repo="moseoh/blog.moseoh.com"
