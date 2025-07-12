@@ -22,3 +22,24 @@ layout:
 # Content Configuration
 content:
   posts_per_page: 10
+
+# Comments Configuration
+comments:
+  giscus:
+    enabled: false
+    script: |
+      <script src="https://giscus.app/client.js"
+        data-repo="moseoh/blog.moseoh.com"
+        data-repo-id="R_kgDOPHXwBw"
+        data-category="Q&A"
+        data-category-id="DIC_kwDOPHXwB84Cs3HR"
+        data-mapping="pathname"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="ko"
+        crossorigin="anonymous"
+        async>
+      </script>
