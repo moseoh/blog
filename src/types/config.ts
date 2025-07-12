@@ -17,4 +17,10 @@ export interface SiteConfig {
   content: {
     posts_per_page: number;
   };
+  comments: {
+    giscus: {
+      enabled: boolean;
+      script: string | undefined | null;
+    }
+  }
 }

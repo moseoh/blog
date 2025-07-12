@@ -1,0 +1,28 @@
+---
+import { COMMENTS } from '../config';
+
+// giscus가 활성화되어 있고 스크립트가 설정되어 있는지 확인
+const isEnabled = COMMENTS.giscus.enabled && COMMENTS.giscus.script.trim() !== '';
+---
+
+{isEnabled && (
+  <div class="giscus-comments mt-16 pt-8 border-t border-border-primary">
+    <div class="giscus-container" set:html={COMMENTS.giscus.script} />
+  </div>
+)}
+
+<style>
+.giscus-comments {
+  /* giscus 컨테이너 스타일링 */
+}
+
+/* giscus 테마와 사이트 테마 통합을 위한 CSS 변수 */
+.giscus-container {
+  --color-prettylights-syntax-comment: var(--color-foreground-tertiary);
+  --color-prettylights-syntax-constant: var(--color-accent-primary);
+  --color-prettylights-syntax-entity: var(--color-accent-secondary);
+  --color-prettylights-syntax-keyword: var(--color-accent-primary);
+  --color-prettylights-syntax-string: var(--color-foreground-secondary);
+  --color-prettylights-syntax-variable: var(--color-foreground-primary);
+}
+</style>

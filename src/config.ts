@@ -32,3 +32,10 @@ export const LAYOUT = {
 };
 
 export const POSTS_PER_PAGE = config.content.posts_per_page;
+
+export const COMMENTS = {
+  giscus: {
+    enabled: config.comments?.giscus?.enabled || false,
+    script: config.comments?.giscus?.script || "",
+  },
+};
