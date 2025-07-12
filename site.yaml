@@ -1,8 +1,8 @@
 # Site Configuration
 site:
   title: "moseoh"
-  description: "A personal blog theme for Astro."
-  url: "https://polarnote.pages.dev"
+  description: "moseoh 개발 블로그"
+  url: "https://blog.moseoh.com"
 
 # Social Links
 # Configure your social media links below
