@@ -11,9 +11,11 @@
     "copy-posts": "node tools/copy-posts.js"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.4.1",
     "@lucide/astro": "^0.515.0",
     "@tailwindcss/vite": "^4.1.10",
     "astro": "^5.10.1",
+    "astro-expressive-code": "^0.41.3",
     "js-yaml": "^4.1.0",
     "pagefind": "^1.3.0",
     "sharp": "^0.34.2",

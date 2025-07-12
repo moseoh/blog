@@ -2,12 +2,16 @@
 site:
   title: "moseoh"
   description: "A personal blog theme for Astro."
+  url: "https://polarnote.pages.dev"
 
 # Social Links
+# Configure your social media links below
+# To disable a social link: set to null or remove the field entirely
+# Example: twitter: null (disabled) or github: "https://github.com/username" (enabled)
 social:
   github: "https://github.com/moseoh"
   linkedin: "https://www.linkedin.com/in/moseoh"
-  twitter: ""
+  twitter: null
   email: "azqazq195@gmail.com"
 
 # Layout Configuration
