@@ -16,9 +16,10 @@ const config = yaml.load(configFile);
 // https://astro.build/config
 export default defineConfig({
     site: config.site.url,
+    trailingSlash: "always",
     output: "static",
     redirects: {
-        "/": "/@/@/1",
+        "/": "/@/@/1/",
     },
     vite: {
         build: {

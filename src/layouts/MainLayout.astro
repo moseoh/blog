@@ -21,8 +21,6 @@ const {
     ogType = "website"
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, SITE.url);
-
 // OG 이미지 최적화 함수
 async function getOptimizedOgImageUrl(image: ImageMetadata = banner): Promise<string> {
     try {
@@ -33,7 +31,7 @@ async function getOptimizedOgImageUrl(image: ImageMetadata = banner): Promise<st
             format: 'webp',
             quality: 95
         });
-        return new URL(optimizedImage.src, SITE.url).toString();
+        return new URL(optimizedImage.src, Astro.site).toString();
     } catch (error) {
         return ""
     }
@@ -53,10 +51,10 @@ const ogImageUrl = await getOptimizedOgImageUrl(ogImage);
     <meta charset="UTF-8"/>
 
     <!-- Canonical URL -->
-    <link rel="canonical" href={canonicalURL}/>
+    <link rel="canonical" href={Astro.url.href}/>
 
     <!-- Open Graph -->
-    <meta property="og:url" content={canonicalURL}/>
+    <meta property="og:url" content={Astro.url.href}/>
     <meta property="og:type" content={ogType}/>
     <meta property="og:title" content={title}/>
     <meta property="og:description" content={description}/>
@@ -67,8 +65,8 @@ const ogImageUrl = await getOptimizedOgImageUrl(ogImage);
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image"/>
-    <meta property="twitter:domain" content={SITE.url}>
-    <meta property="twitter:url" content={canonicalURL}>
+    <meta property="twitter:domain" content={Astro.site}>
+    <meta property="twitter:url" content={Astro.url.href}>
     <meta name="twitter:title" content={title}/>
     <meta name="twitter:description" content={description}/>
     <meta name="twitter:image" content={ogImageUrl}/>
